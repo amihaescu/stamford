@@ -47,4 +47,12 @@ public class ProductController {
         productRepository.save(product);
         return ResponseEntity.ok(product);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id.toString()));
+        product.setDeleted(true);
+        productRepository.save(product);
+        return  ResponseEntity.ok().build();
+    }
 }

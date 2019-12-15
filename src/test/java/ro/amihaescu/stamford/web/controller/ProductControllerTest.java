@@ -15,12 +15,12 @@ import ro.amihaescu.stamford.repository.ProductRepository;
 import ro.amihaescu.stamford.web.dto.ProductDTO;
 
 import java.util.Arrays;
-import java.util.Random;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 @SpringBootTest
@@ -94,10 +94,35 @@ public class ProductControllerTest {
                         .content(objectMapper.writeValueAsString(updatedProduct)))
                 .andExpect(status().isNotFound())
                 .andReturn();
-        
+
         assertNotNull(mvcResult.getResolvedException());
         assertEquals("Product with id 1 not found", mvcResult.getResolvedException().getMessage());
+    }
 
+    @Test
+    public void successfullyDelete_ExistingProduct() throws Exception {
+        Product savedProduct = productRepository.save(Product.builder().price(5.00).name("Coca Cola").build());
+
+        mockMvc.perform(
+                delete("/product/{id}", savedProduct.getId())
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isOk());
+
+        Optional<Product> deletedProduct = productRepository.findById(savedProduct.getId());
+        assertTrue(deletedProduct.isPresent());
+        assertTrue(deletedProduct.get().getDeleted());
+    }
+
+    @Test
+    public void failToDelete_ProductNotFound() throws Exception {
+        MvcResult mvcResult = mockMvc.perform(
+                delete("/product/{id}", 1)
+                        .contentType(MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotFound())
+                .andReturn();
+
+        assertNotNull(mvcResult.getResolvedException());
+        assertEquals("Product with id 1 not found", mvcResult.getResolvedException().getMessage());
     }
 
 }

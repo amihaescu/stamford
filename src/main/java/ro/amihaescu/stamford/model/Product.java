@@ -23,4 +23,5 @@ public class Product {
     private String name;
     private Double price;
     private Date created;
+    private Boolean deleted = false;
 }
