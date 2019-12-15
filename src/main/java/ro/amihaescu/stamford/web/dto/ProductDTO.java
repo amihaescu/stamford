@@ -2,16 +2,18 @@ package ro.amihaescu.stamford.web.dto;
 
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.hateoas.RepresentationModel;
+import lombok.EqualsAndHashCode;
+import org.springframework.hateoas.ResourceSupport;
 
 import java.time.LocalDateTime;
 
 
 @Data
 @Builder
-public class ProductDTO extends RepresentationModel<ProductDTO> {
-
+@EqualsAndHashCode(callSuper = false)
+public class ProductDTO extends ResourceSupport {
     private String name;
     private double price;
+    @EqualsAndHashCode.Exclude
     private LocalDateTime created;
 }

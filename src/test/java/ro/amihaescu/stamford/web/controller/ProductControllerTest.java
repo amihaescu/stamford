@@ -1,13 +1,15 @@
 package ro.amihaescu.stamford.web.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import ro.amihaescu.stamford.model.Product;
@@ -17,7 +19,7 @@ import ro.amihaescu.stamford.web.dto.ProductDTO;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@RunWith(SpringJUnit4ClassRunner.class)
 public class ProductControllerTest {
 
     private static ObjectMapper objectMapper;
@@ -35,12 +38,12 @@ public class ProductControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @BeforeAll
+    @BeforeClass
     public static void initializeObjectMapper() {
         objectMapper = new ObjectMapper();
     }
 
-    @BeforeEach
+    @Before
     public void clearDatabase() {
         productRepository.deleteAll();
     }

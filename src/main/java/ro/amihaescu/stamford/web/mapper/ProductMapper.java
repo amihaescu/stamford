@@ -5,7 +5,8 @@ import ro.amihaescu.stamford.model.Product;
 import ro.amihaescu.stamford.web.controller.ProductController;
 import ro.amihaescu.stamford.web.dto.ProductDTO;
 
-import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+
 
 @Component
 public class ProductMapper {
