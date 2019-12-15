@@ -1,9 +1,6 @@
 package ro.amihaescu.stamford.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 public class Product {
 
     @Id
@@ -23,6 +21,7 @@ public class Product {
     private String name;
     private Double price;
     @Builder.Default
+    @EqualsAndHashCode.Exclude
     private LocalDateTime created = LocalDateTime.now();
     @Builder.Default
     private Boolean deleted = false;
