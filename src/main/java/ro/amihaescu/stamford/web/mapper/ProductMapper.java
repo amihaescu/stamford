@@ -2,7 +2,10 @@ package ro.amihaescu.stamford.web.mapper;
 
 import org.springframework.stereotype.Component;
 import ro.amihaescu.stamford.model.Product;
+import ro.amihaescu.stamford.web.controller.ProductController;
 import ro.amihaescu.stamford.web.dto.ProductDTO;
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 
 @Component
 public class ProductMapper {
@@ -14,8 +17,11 @@ public class ProductMapper {
     }
 
     public ProductDTO toDTO(Product product) {
-        return ProductDTO.builder().name(product.getName())
+        ProductDTO productDTO = ProductDTO.builder().name(product.getName())
                 .price(product.getPrice())
+                .created(product.getCreated())
                 .build();
+        productDTO.add(linkTo(ProductController.class).slash(product.getId()).withSelfRel());
+        return productDTO;
     }
 }

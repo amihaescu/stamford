@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -22,6 +22,8 @@ public class Product {
     private Long id;
     private String name;
     private Double price;
-    private Date created;
+    @Builder.Default
+    private LocalDateTime created = LocalDateTime.now();
+    @Builder.Default
     private Boolean deleted = false;
 }

@@ -58,7 +58,7 @@ public class ProductControllerTest {
     @Test
     public void successfullyGetAllProducts() throws Exception {
         productRepository.saveAll(Arrays.asList(
-                Product.builder().name("Coke").price(5.00).build(),
+                Product.builder().name("Coke").price(5.00).deleted(true).build(),
                 Product.builder().name("Water").price(4.50).build()
         ));
 
@@ -67,7 +67,9 @@ public class ProductControllerTest {
                 .andExpect(jsonPath("$").isArray())
                 .andExpect(jsonPath("$").isNotEmpty())
                 .andExpect(jsonPath("$.[0].name").isString())
-                .andExpect(jsonPath("$.[0].price").isNumber());
+                .andExpect(jsonPath("$.[0].name").value("Water"))
+                .andExpect(jsonPath("$.[0].price").isNumber())
+                .andExpect(jsonPath("$.[0].price").value(4.50));
     }
 
     @Test

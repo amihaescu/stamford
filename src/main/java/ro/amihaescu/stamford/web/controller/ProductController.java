@@ -9,7 +9,6 @@ import ro.amihaescu.stamford.web.dto.ProductDTO;
 import ro.amihaescu.stamford.web.exception.ProductNotFoundException;
 import ro.amihaescu.stamford.web.mapper.ProductMapper;
 
-import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -35,7 +34,10 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<ProductDTO>> getAllProducts() {
-        List<ProductDTO> allProducts = productRepository.findAll().stream().map(productMapper::toDTO).collect(Collectors.toList());
+        List<ProductDTO> allProducts = productRepository.findAll()
+                .stream()
+                .filter(product -> !product.getDeleted())
+                .map(productMapper::toDTO).collect(Collectors.toList());
         return ResponseEntity.ok().body(allProducts);
     }
 
