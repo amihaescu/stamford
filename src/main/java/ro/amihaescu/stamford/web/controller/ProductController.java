@@ -26,10 +26,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity createProduct(@RequestBody ProductDTO productDTO) {
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
         log.info("Creating product");
-        productRepository.save(productMapper.toEntity(productDTO));
-        return ResponseEntity.ok().build();
+        Product savedProduct = productRepository.save(productMapper.toEntity(productDTO));
+        return ResponseEntity.ok(productMapper.toDTO(savedProduct));
     }
 
     @GetMapping

@@ -22,6 +22,7 @@ public class ProductMapper {
                 .created(product.getCreated())
                 .build();
         productDTO.add(linkTo(ProductController.class).slash(product.getId()).withSelfRel());
+        productDTO.add(linkTo(ProductController.class).withRel("all products"));
         return productDTO;
     }
 }
