@@ -9,12 +9,12 @@ import ro.amihaescu.stamford.web.dto.ProductDTO;
 import ro.amihaescu.stamford.web.exception.ProductNotFoundException;
 import ro.amihaescu.stamford.web.mapper.ProductMapper;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("product")
-@Log
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -26,8 +26,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductDTO> createProduct(@RequestBody ProductDTO productDTO) {
-        log.info("Creating product");
+    public ResponseEntity<ProductDTO> createProduct(@RequestBody @NotNull ProductDTO productDTO) {
         Product savedProduct = productRepository.save(productMapper.toEntity(productDTO));
         return ResponseEntity.ok(productMapper.toDTO(savedProduct));
     }
@@ -42,7 +41,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDTO updatedProduct) throws ProductNotFoundException {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @RequestBody @NotNull ProductDTO updatedProduct) throws ProductNotFoundException {
         productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException(id.toString()));
         Product product = productMapper.toEntity(updatedProduct);
         product.setId(id);

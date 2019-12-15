@@ -1,5 +1,16 @@
 version: "3"
 services:
+  application:
+    container_name: "products-orders"
+    build: .
+    ports:
+    - 9000:8080
+    depends_on:
+      - product-db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://product-db:5432/stamford
+      SPRNIG_DATASOURCE_USERNAME: stamford
+      SPRING_DATASOURCE_PASSWORD: stamford
   product-db:
     container_name: "stamford-postgres"
     image: postgres:12
