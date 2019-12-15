@@ -1,0 +1,10 @@
+version: "3"
+services:
+  product-db:
+    container_name: "stamford-postgres"
+    image: postgres:12
+    environment:
+      POSTGRES_PASSWORD: stamford
+      POSTGRES_USER: stamford
+    ports:
+      - 5431:5432
